@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "235142520321",
+    "firebase_url": "https://pesuplacement-bdb6b.firebaseio.com",
+    "project_id": "pesuplacement-bdb6b",
+    "storage_bucket": "pesuplacement-bdb6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235142520321:android:142878464e2b42a1",
+        "android_client_info": {
+          "package_name": "com.placement.pesu.pesuplacement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235142520321-9hf62ga6v5o921uj6ftmjh15dnqrbs6p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.placement.pesu.pesuplacement",
+            "certificate_hash": "f7abeb72d6bd3bc3226067d05a4639fc67b47c6d"
+          }
+        },
+        {
+          "client_id": "235142520321-rs5ronbjc7bkdbkm9uuc9gqhrfnhq11s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcep2DYaxklnXRma_0_W-Z-jMAXb4NbDc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235142520321-rs5ronbjc7bkdbkm9uuc9gqhrfnhq11s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

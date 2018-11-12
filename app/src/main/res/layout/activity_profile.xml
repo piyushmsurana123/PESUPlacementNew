@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="248dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_vertical"
+                android:text="Please enter the following details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="27dp" />
+
+            <EditText
+                android:id="@+id/srnInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="srn"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="67dp" />
+
+            <EditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="67dp" />
+
+            <EditText
+                android:id="@+id/emailIdInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="Email ID"
+                android:inputType="textEmailAddress"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="132dp" />
+
+            <EditText
+                android:id="@+id/contactNoInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint=" Contact Number"
+                android:inputType="phone"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="196dp" />
+
+            <EditText
+                android:id="@+id/yearOfGraduationInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="Year of Graduation"
+                android:inputType="number"
+                android:maxLength="4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.499"
+                tools:layout_editor_absoluteX="89dp" />
+
+            <EditText
+                android:id="@+id/cgpaInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="cgpa"
+                android:inputType="text|number"
+                android:maxLength="5"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="322dp"/>
+
+            <EditText
+                android:id="@+id/degreeCourseInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="Degree Course "
+                android:inputType="text|textPersonName"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="385dp" />
+
+            <EditText
+                android:id="@+id/branchInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="Branch"
+                android:inputType="text|textPersonName"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="450dp" />
+
+            <EditText
+                android:id="@+id/tenthDetailsInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="10th Details (9.6 CGPA) / (95%)"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="512dp" />
+
+            <EditText
+                android:id="@+id/twelvethDetailsInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:hint="12th Details (9.6 CGPA) / (95%)"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="512dp" />
+
+            <Button
+                android:id="@+id/uploadResume"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center_vertical"
+                android:text="Upload Resume"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="443dp" />
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center_vertical"
+                android:text="Submit Details"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="443dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

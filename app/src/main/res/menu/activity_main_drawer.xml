@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_if_profile"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_companies"
+            android:icon="@drawable/ic_enterprise"
+            android:title="Companies" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_statistics"
+            android:title="Statistics" />
+    </group>
+
+    <item android:title="Learning">
+        <menu>
+            <item
+                android:id="@+id/nav_learning_companies"
+                android:icon="@drawable/ic_enterprise"
+                android:title="Companies" />
+            <item
+                android:id="@+id/nav_learning_topics"
+                android:icon="@drawable/ic_topics"
+                android:title="Topics" />
+        </menu>
+    </item>
+
+</menu>
