@@ -16,16 +16,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        textView = findViewById(R.id.hello);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -38,18 +42,17 @@ public class MainActivity extends AppCompatActivity
         });
 
         //**********************
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        String[] getParams = {"formdata"};
+        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
-        StrictMode.setThreadPolicy(policy);
-        HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
-        try {
-            String response = httpURLConnectionExample.sendGet();
-            Log.d("hello",response);
-        } catch (Exception e) {
-            Log.d("hello",e.toString());
-            e.printStackTrace();
-        }*/
-        AsyncTask<Void, Void, Void> execute = new MyGet().execute();
+            @Override
+            public void processFinish(String output){
+                //Here you will receive the result fired from async class
+                //of onPostExecute(result) method.
+                Log.d("hello",output);
+                textView.setText(output);
+            }
+        }).execute(getParams);
 
 
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -124,30 +128,36 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    class MyGet extends AsyncTask<Void,Void,Void>
-    {
 
-        private String response;
-        protected void onPreExecute() {
-            //display progress dialog.
-
-        }
-        protected Void doInBackground(Void... params) {
-            HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
-            response="";
-            try {
-                response = httpURLConnectionExample.sendGet("formdata");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-
-        protected void onPostExecute() {
-            Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_LONG).show();
-        }
-    }
 }
 
+class MyGet extends AsyncTask<String, Void, String> {
 
+    private String response;
+    // you may separate this or combined to caller class.
+     interface AsyncResponse {
+        void processFinish(String output);
+    }
+
+    private AsyncResponse delegate = null;
+
+    MyGet(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
+
+    protected String doInBackground(String... params) {
+        HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
+        response="";
+        try {
+            response = httpURLConnectionExample.sendGet(params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        delegate.processFinish(result);
+    }
+}

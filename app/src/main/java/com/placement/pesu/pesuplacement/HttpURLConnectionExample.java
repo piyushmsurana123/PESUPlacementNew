@@ -46,9 +46,9 @@ public class HttpURLConnectionExample {
     }
 
     // HTTP POST request
-    private String sendPost() throws Exception {
+    private String sendPost(String data) throws Exception {
 
-        String url = "https://ppdb-ep.herokuapp.com/formdata";
+        String url = URL + "formdata";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
