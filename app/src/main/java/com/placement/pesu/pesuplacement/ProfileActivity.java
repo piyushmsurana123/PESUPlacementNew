@@ -85,6 +85,7 @@ ProfileActivity extends AppCompatActivity {
 
     }
 
+
     public void sendPost(String srn, String name, String emailId, String cgpa, String degreeCourse, String branch, String tenthDetails, String twelvethDetails, Integer contactNo, Integer yearOfGraduation ) throws Exception {
 
         String USER_AGENT = "Mozilla/5.0";
