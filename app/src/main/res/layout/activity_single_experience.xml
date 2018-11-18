@@ -27,7 +27,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Back"
-                android:layout_alignParentR="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 />
 
