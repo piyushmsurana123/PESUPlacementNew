@@ -16,20 +16,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView textView;
-
+    ListView companiesView;
+    public static ArrayList<Company> modelArrayList;
+    private CustomAdapter customAdapter;
+    private ArrayList<String> companyList;
+    private ArrayList<String> ctcList;
+    private ArrayList<String> linkList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        textView = findViewById(R.id.hello);
+        companiesView = findViewById(R.id.companylist);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -40,17 +51,44 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+        companyList = new ArrayList<>();
+        ctcList = new ArrayList<>();
+        linkList = new ArrayList<>();
+        customAdapter = new CustomAdapter(this);
         //**********************
-        String[] getParams = {"formdata"};
+        String[] getParams = {"compdata"};
         MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
             @Override
             public void processFinish(String output){
                 //Here you will receive the result fired from async class
                 //of onPostExecute(result) method.
+                try {
+                    JSONArray companies = new JSONArray(output);
+                    //Log.d("hello", companies.getJSONObject(0).getString("Date"));
+
+                    for (int i = 0; i < companies.length(); i++) {
+                        if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company")){
+                            String compName = companies.getJSONObject(i).getString("Company");
+                            String compCtc = companies.getJSONObject(i).getString("CTC");
+
+                            Log.d("hello", compName);
+                            companyList.add(compName);
+                            ctcList.add(compCtc);
+                            linkList.add("https://www.google.co.in");
+                        }
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                companiesView = (ListView) findViewById(R.id.companylist);
+
+                modelArrayList = getModel();
+
+                companiesView.setAdapter(customAdapter);
+
                 Log.d("hello",output);
-                textView.setText(output);
             }
         }).execute(getParams);
 
@@ -66,6 +104,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //***************************
+
+
+
+
+         //****************************/
 
     }
 
@@ -127,6 +172,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private ArrayList<Company> getModel(){
+        ArrayList<Company> list = new ArrayList<>();
+        for(int i = 0; i < companyList.size(); i++){
+
+            Company model = new Company();
+            model.setCtc(ctcList.get(i));
+            model.setCompany(companyList.get(i));
+            list.add(model);
+        }
+        return list;
     }
 
 }
