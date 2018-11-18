@@ -8,11 +8,17 @@
     tools:context=".SingleExperienceActivity"
     tools:showIn="@layout/activity_single_experience">
 
+
     <TextView
         android:id="@+id/singleExperTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textStyle="bold" />
+        android:lineSpacingExtra="8sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textSize="18sp"
+        />
 
 
 </android.support.v4.widget.NestedScrollView>

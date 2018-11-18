@@ -10,9 +10,38 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="120dp"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="10dp">
+
+            <Button
+                android:id="@+id/singleExperBackButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:layout_alignParentR="true"
+                android:layout_alignParentBottom="true"
+                />
+
+            <Button
+                android:id="@+id/singleExperChangeFilterButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Change Filters"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                />
+
+
+        </RelativeLayout>
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -33,7 +62,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_single_experience" />
-
+        <include layout="@layout/content_single_experience" />
 
 </android.support.design.widget.CoordinatorLayout>
