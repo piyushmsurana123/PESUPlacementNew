@@ -117,11 +117,9 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_statistics) {
 
         }
-        else if (id == R.id.nav_learning_companies) {
-
-        }
         else if (id == R.id.nav_learning_topics) {
-
+            Intent intent = new Intent(MainActivity.this, LearningFIlterListActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

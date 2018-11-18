@@ -37,7 +37,19 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".random"></activity>
+        <activity android:name=".random" />
+        <activity
+            android:name=".LearningFIlterListActivity"
+            android:label="@string/title_activity_learning_filter_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExperienceListViewActivity"
+            android:label="@string/title_activity_experience_list_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SingleExperienceActivity"
+            android:label="@string/title_activity_single_experience"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
