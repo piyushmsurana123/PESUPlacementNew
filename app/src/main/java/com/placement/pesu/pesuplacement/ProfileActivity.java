@@ -45,6 +45,7 @@ ProfileActivity extends AppCompatActivity {
         twelfthDetailsInput = (EditText) findViewById(R.id.twelvethDetailsInput);
         contactNoInput = (EditText) findViewById(R.id.contactNoInput);
         yearOfGraduationInput = (EditText) findViewById(R.id.yearOfGraduationInput);
+        
         uploadResume = (Button) findViewById(R.id.uploadResume);
         submitButton = (Button) findViewById(R.id.submitButton);
 
@@ -69,16 +70,17 @@ ProfileActivity extends AppCompatActivity {
                 twelvethDetails = twelfthDetailsInput.getText().toString();
                 contactNo = Integer.valueOf(contactNoInput.getText().toString());
                 yearOfGraduation = Integer.valueOf(yearOfGraduationInput.getText().toString());
-
+                /*
                 ProfileActivity postObject = new ProfileActivity();
                 try {
-                    postObject.sendPost(srn,name,emailId,cgpa,degreeCourse,branch,tenthDetails,twelvethDetails,contactNo,yearOfGraduation);
+                    //postObject.sendPost(srn,name,emailId,cgpa,degreeCourse,branch,tenthDetails,twelvethDetails,contactNo,yearOfGraduation);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 //showToast(name);
                 //showToast(emailId);
+                */
 
             }
         });
@@ -86,45 +88,5 @@ ProfileActivity extends AppCompatActivity {
     }
 
 
-    public void sendPost(String srn, String name, String emailId, String cgpa, String degreeCourse, String branch, String tenthDetails, String twelvethDetails, Integer contactNo, Integer yearOfGraduation ) throws Exception {
-
-        String USER_AGENT = "Mozilla/5.0";
-        String url = "https://ppdb-ep.herokuapp.com/login";
-        URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-        String urlParameters = "srn="+srn+"&name="+name+"&emailId="+emailId+"&cgpa"+cgpa+"&degreeCourse"+degreeCourse+"&branch="+branch+"&tenthDetails="+tenthDetails+"&twelvethDetails="+twelvethDetails+"&contactNo"+contactNo.toString()+"&yearOfGraduation="+yearOfGraduation.toString();
-
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        System.out.println(response.toString());
-
-    }
 
 }

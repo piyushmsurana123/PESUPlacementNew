@@ -24,4 +24,20 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings related to profile page -->
+    <string name="prompt_emailid">Email</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_phone">Contact No</string>
+    <string name="prompt_usn">USN</string>
+    <string name="prompt_cgpa">CGPA</string>
+    <string name="prompt_yog">Year of Graduation</string>
+    <string name="prompt_course">Course/degree</string>
+    <string name="prompt_branch">Branch</string>
+    <string name="prompt_10th">10th Details</string>
+    <string name="prompt_12th">12th Details</string>
+    <string name="action_upload_resume">Upload Resume</string>
+    <string name="action_submit_details">Submit Details</string>
+    <string name="action_change_password">Change Password</string>
+
 </resources>
