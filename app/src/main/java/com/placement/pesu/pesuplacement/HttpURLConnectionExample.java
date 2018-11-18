@@ -1,61 +1,56 @@
 package com.placement.pesu.pesuplacement;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
 import javax.net.ssl.HttpsURLConnection;
+
 
 public class HttpURLConnectionExample {
 
     private final String USER_AGENT = "Mozilla/5.0";
+    private final String URL = "https://ppdb-ep.herokuapp.com/";
 
-    public static void main(String[] args) throws Exception {
 
-        HttpURLConnectionExample http = new HttpURLConnectionExample();
-        /*
-        System.out.println("Testing 1 - Send Http GET request");
-        http.sendGet();
-        */
-
-        System.out.println("\nTesting 2 - Send Http POST request");
-        http.sendPost();
-
-    }
-/*
     // HTTP GET request
-    private void sendGet() throws Exception {
+    public String sendGet(String data) throws Exception {
 
-        String url = "https://ppdb-ep.herokuapp.com/formdata";
+        String url = URL+ data;
 
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpsURLConnection urlConnection  = (HttpsURLConnection) obj.openConnection();
 
-        con.setRequestMethod("GET");
-        int responseCode = con.getResponseCode();
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setRequestProperty("User-Agent", USER_AGENT);
+        urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        int responseCode = urlConnection.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
+                new InputStreamReader(urlConnection.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
         in.close();
         System.out.println(response.toString());
+        return response.toString();
 
     }
-*/
-    // HTTP POST request
-    private void sendPost() throws Exception {
 
-        String url = "https://ppdb-ep.herokuapp.com/login";
+    // HTTP POST request
+    private String sendPost(String data) throws Exception {
+
+        String url = URL + "formdata";
         URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //add reuqest header
         con.setRequestMethod("POST");
@@ -79,7 +74,7 @@ public class HttpURLConnectionExample {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
@@ -88,7 +83,9 @@ public class HttpURLConnectionExample {
 
         //print result
         System.out.println(response.toString());
+        return response.toString();
 
     }
 
 }
+

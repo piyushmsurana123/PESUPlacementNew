@@ -1,9 +1,12 @@
 package com.placement.pesu.pesuplacement;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,15 +16,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        textView = findViewById(R.id.hello);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -33,6 +41,23 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //**********************
+        String[] getParams = {"formdata"};
+        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+
+            @Override
+            public void processFinish(String output){
+                //Here you will receive the result fired from async class
+                //of onPostExecute(result) method.
+                Log.d("hello",output);
+                textView.setText(output);
+            }
+        }).execute(getParams);
+
+
+
+        //**********************
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -41,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -99,5 +125,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+}
+
+class MyGet extends AsyncTask<String, Void, String> {
+
+    private String response;
+    // you may separate this or combined to caller class.
+     interface AsyncResponse {
+        void processFinish(String output);
+    }
+
+    private AsyncResponse delegate = null;
+
+    MyGet(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
+
+    protected String doInBackground(String... params) {
+        HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
+        response="";
+        try {
+            response = httpURLConnectionExample.sendGet(params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        delegate.processFinish(result);
     }
 }
