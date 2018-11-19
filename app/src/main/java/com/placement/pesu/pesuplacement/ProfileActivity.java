@@ -1,6 +1,11 @@
 package com.placement.pesu.pesuplacement;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +21,7 @@ import org.json.JSONObject;
 public class
 ProfileActivity extends AppCompatActivity {
 
+    private static final int REQUEST_WRITE_STORAGE = 112;
     EditText emailIdInput;
     EditText srnInput;
     EditText contactNoInput;
@@ -30,7 +36,6 @@ ProfileActivity extends AppCompatActivity {
     Button uploadResume;
     Button changePassword;
     Button submitButton;
-
 
 
     @Override
@@ -52,10 +57,25 @@ ProfileActivity extends AppCompatActivity {
         changePassword = (Button) findViewById(R.id.change_password_button);
         submitButton = (Button) findViewById(R.id.submit_details_button);
 
+        Boolean hasPermission = (ContextCompat.checkSelfPermission(ProfileActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(ProfileActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_STORAGE);
+        }else {
+            Log.d("Permission","user message, No permission to upload");
+        }
+
+
         uploadResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //function to take care of resume upload
+                Intent intent = new Intent();
+                intent.setType("document/*"); // intent.setType("video/*"); to select videos to upload
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+
 
 
             }
