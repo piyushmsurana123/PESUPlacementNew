@@ -14,19 +14,11 @@
             android:id="@+id/nav_statistics"
             android:icon="@drawable/ic_statistics"
             android:title="Statistics" />
-    </group>
+        <item
+            android:id="@+id/nav_learning_topics"
+            android:icon="@drawable/ic_topics"
+            android:title="Learning" />
 
-    <item android:title="Learning">
-        <menu>
-            <item
-                android:id="@+id/nav_learning_companies"
-                android:icon="@drawable/ic_enterprise"
-                android:title="Companies" />
-            <item
-                android:id="@+id/nav_learning_topics"
-                android:icon="@drawable/ic_topics"
-                android:title="Topics" />
-        </menu>
-    </item>
+    </group>
 
 </menu>

@@ -16,38 +16,41 @@ import javax.net.ssl.HttpsURLConnection;
 public class
 ProfileActivity extends AppCompatActivity {
 
-    String srn,name, emailId, cgpa, degreeCourse, branch, tenthDetails, twelvethDetails;
+    String emailId, srn, name, cgpa, degreeCourse, branch, tenthDetails, twelvethDetails;
     int contactNo, yearOfGraduation;
-    EditText srnInput;
-    EditText nameInput;
     EditText emailIdInput;
+    EditText srnInput;
+    EditText contactNoInput;
+    EditText nameInput;
     EditText cgpaInput;
+    EditText yearOfGraduationInput;
     EditText degreeCourseInput;
     EditText branchInput;
     EditText tenthDetailsInput;
     EditText twelfthDetailsInput;
-    EditText contactNoInput;
-    EditText yearOfGraduationInput;
+
     Button uploadResume;
+    Button changePassword;
     Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        srnInput = (EditText) findViewById(R.id.srnInput);
-        nameInput = (EditText) findViewById(R.id.nameInput);
-        emailIdInput = (EditText) findViewById(R.id.emailIdInput);
-        cgpaInput = (EditText) findViewById(R.id.cgpaInput);
-        degreeCourseInput = (EditText) findViewById(R.id.degreeCourseInput);
-        branchInput = (EditText) findViewById(R.id.branchInput);
-        tenthDetailsInput = (EditText) findViewById(R.id.tenthDetailsInput);
-        twelfthDetailsInput = (EditText) findViewById(R.id.twelvethDetailsInput);
-        contactNoInput = (EditText) findViewById(R.id.contactNoInput);
-        yearOfGraduationInput = (EditText) findViewById(R.id.yearOfGraduationInput);
-        
-        uploadResume = (Button) findViewById(R.id.uploadResume);
-        submitButton = (Button) findViewById(R.id.submitButton);
+        emailIdInput = (EditText) findViewById(R.id.email);
+        srnInput = (EditText) findViewById(R.id.usn);
+        contactNoInput = (EditText) findViewById(R.id.contact);
+        nameInput = (EditText) findViewById(R.id.name);
+        yearOfGraduationInput = (EditText) findViewById(R.id.yog);
+        cgpaInput = (EditText) findViewById(R.id.cgpa);
+        degreeCourseInput = (EditText) findViewById(R.id.course);
+        branchInput = (EditText) findViewById(R.id.branch);
+        tenthDetailsInput = (EditText) findViewById(R.id.details_10th);
+        twelfthDetailsInput = (EditText) findViewById(R.id.details_12th);
+
+        uploadResume = (Button) findViewById(R.id.upload_resume_button);
+        changePassword = (Button) findViewById(R.id.change_password_button)
+        submitButton = (Button) findViewById(R.id.submit_details_button);
 
         uploadResume.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,17 +73,8 @@ ProfileActivity extends AppCompatActivity {
                 twelvethDetails = twelfthDetailsInput.getText().toString();
                 contactNo = Integer.valueOf(contactNoInput.getText().toString());
                 yearOfGraduation = Integer.valueOf(yearOfGraduationInput.getText().toString());
-                /*
-                ProfileActivity postObject = new ProfileActivity();
-                try {
-                    //postObject.sendPost(srn,name,emailId,cgpa,degreeCourse,branch,tenthDetails,twelvethDetails,contactNo,yearOfGraduation);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-                //showToast(name);
-                //showToast(emailId);
-                */
+
 
             }
         });
