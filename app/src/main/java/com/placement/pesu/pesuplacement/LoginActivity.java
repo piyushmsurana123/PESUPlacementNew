@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +30,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    public static String USN;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -73,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         sp = getSharedPreferences("login",MODE_PRIVATE);
 
         if(sp.getBoolean("logged",false)){
+            USN = sp.getString("usn", "01FB15ECS111");
             goToProfileActivity();
         }
         setupActionBar();
@@ -195,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError(getString(R.string.error_invalid_emailusn));
             focusView = mEmailView;
             cancel = true;
         }
@@ -215,7 +223,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") || email.length()>=12;
     }
 
     private boolean isPasswordValid(String password) {
@@ -324,23 +332,65 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
+                    USN = "01FB15ECS111";
                     return pieces[1].equals(mPassword);
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("usn", mEmail);
+                postData.put("password", mPassword);
+                HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
+                String response = httpURLConnectionExample.sendPost("login",postData.toString());
+                Log.d("login", response.toString());
+                if(response.toString().contains("true"))
+                {
+                    if(!mEmail.contains("@"))
+                        USN = mEmail;
+                    else
+                    {
+                        String[] getParams = {"formdata?email="+mEmail};
+                        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+
+                            @Override
+                            public void processFinish(String output){
+                                //Here you will receive the result fired from async class
+                                //of onPostExecute(result) method.
+                                try {
+                                    JSONArray user = new JSONArray(output);
+                                    USN = user.getJSONObject(0).getString("usn");
+                                    sp.edit().putString("usn", USN).apply();
+                                    //Log.d("hello", companies.getString(0));
+
+
+                                }
+                                catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Log.d("hello",output);
+                            }
+                        }).execute(getParams);
+                    }
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                return false;
+            }
+
+
         }
 
         @Override
@@ -365,4 +415,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
-
