@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> companyList;
     private ArrayList<String> ctcList;
     private ArrayList<String> linkList;
+    private ArrayList<JSONObject> companyJsonList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         companyList = new ArrayList<>();
         ctcList = new ArrayList<>();
         linkList = new ArrayList<>();
+        companyJsonList = new ArrayList<>();
         customAdapter = new CustomAdapter(this);
         //**********************
         String[] getParams = {"compdata"};
@@ -65,10 +67,10 @@ public class MainActivity extends AppCompatActivity
                 //of onPostExecute(result) method.
                 try {
                     JSONArray companies = new JSONArray(output);
-                    //Log.d("hello", companies.getJSONObject(0).getString("Date"));
+                    //Log.d("hello", companies.getString(0));
 
                     for (int i = 0; i < companies.length(); i++) {
-                        if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company")){
+                        if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company") && !companies.getJSONObject(i).getString("Date").equals("") && !companies.getJSONObject(i).getString("Company").equals("") && !companies.getJSONObject(i).getString("Branch").equals("")){
                             String compName = companies.getJSONObject(i).getString("Company");
                             String compCtc = companies.getJSONObject(i).getString("CTC");
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity
                             companyList.add(compName);
                             ctcList.add(compCtc);
                             linkList.add("https://www.google.co.in");
+                            companyJsonList.add(companies.getJSONObject(i));
                         }
                     }
                 }
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity
             Company model = new Company();
             model.setCtc(ctcList.get(i));
             model.setCompany(companyList.get(i));
+            model.setCompanyDetailsJson(companyJsonList.get(i));
             list.add(model);
         }
         return list;

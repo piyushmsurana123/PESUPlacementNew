@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -52,39 +53,37 @@ public class HttpURLConnectionExample {
     }
 
     // HTTP POST request
-    public void sendPost(String endpoint, ArrayList<String> urlparameters) throws Exception {
-        URL url = new URL("https://ppdb-ep.herokuapp.com/");
-        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-        conn.setReadTimeout(10000);
-        conn.setConnectTimeout(15000);
-        conn.setRequestMethod("POST");
-        conn.setDoInput(true);
-        conn.setDoOutput(true);
+    public String sendPost(String data1, String params) throws Exception {
 
-        if(endpoint.equals("updateprofile")){
-            System.out.println("in update profile");
-            Uri.Builder builder = new Uri.Builder()
-                    .appendQueryParameter("email", urlparameters.get(0))
-                    .appendQueryParameter("usn", urlparameters.get(1))
-                    .appendQueryParameter("contact", urlparameters.get(2))
-                    .appendQueryParameter("name", urlparameters.get(3))
-                    .appendQueryParameter("cgpa", urlparameters.get(4))
-                    .appendQueryParameter("yog", urlparameters.get(5))
-                    .appendQueryParameter("course", urlparameters.get(6))
-                    .appendQueryParameter("branch",urlparameters.get(7))
-                    .appendQueryParameter("details_10th", urlparameters.get(8))
-                    .appendQueryParameter("details_12th", urlparameters.get(9));
+        String url = URL + data1;
+        String response="";
+        URL obj = new URL(url);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
 
-            String query = builder.build().getEncodedQuery();
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(query);
-            writer.flush();
-            writer.close();
-            os.close();
+        //add request header
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+        httpURLConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+        httpURLConnection.setDoOutput(true);
+
+        DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+        wr.writeBytes("PostData=" + params);
+        wr.flush();
+        wr.close();
+
+        InputStream in = httpURLConnection.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+        int inputStreamData = inputStreamReader.read();
+        while (inputStreamData != -1) {
+            char current = (char) inputStreamData;
+            inputStreamData = inputStreamReader.read();
+            response += current;
         }
-        conn.connect();
+
+        return response;
+
 
     }
 
