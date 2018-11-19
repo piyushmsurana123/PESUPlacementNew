@@ -349,7 +349,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 postData.put("password", mPassword);
                 HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
                 String response = httpURLConnectionExample.sendPost("login",postData.toString());
-                if(response.contains("true"))
+                Log.d("login", response.toString());
+                if(response.toString().contains("true"))
                 {
                     if(!mEmail.contains("@"))
                         USN = mEmail;
@@ -380,14 +381,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                     return true;
                 }
+                else
+                    return false;
             }
             catch (Exception e)
             {
                 e.printStackTrace();
+                return false;
             }
 
 
-            return false;
         }
 
         @Override

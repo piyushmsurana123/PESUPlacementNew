@@ -25,7 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> ctcList;
     private ArrayList<String> linkList;
     private ArrayList<JSONObject> companyJsonList;
+    private ArrayList<String> eligibilityString;
+    private JSONObject studentResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -86,6 +92,24 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    private String getCompanyType(float ctc) {
+        if(ctc<=4.0)
+            return "T3";
+        else if(ctc<=8.0)
+            return "T2";
+        else
+            return "T1";
+    }
+
+    public String checkEligibility(float ctc){
+        String param = "formdata?usn="+LoginActivity.USN;
+        String companyType = getCompanyType(ctc);
+        Log.d("ctc", ""+ctc);
+
+
+            return "";
     }
 
     @Override
@@ -147,6 +171,9 @@ public class MainActivity extends AppCompatActivity
         }
         return list;
     }
+    private void setStudentDetail(JSONObject response) {
+        this.studentResponse = response;
+    }
 
     private void showCompany() {
         SharedPreferences sp = getSharedPreferences("login", MODE_PRIVATE);
@@ -161,10 +188,30 @@ public class MainActivity extends AppCompatActivity
             ctcList = new ArrayList<>();
             linkList = new ArrayList<>();
             companyJsonList = new ArrayList<>();
+            eligibilityString = new ArrayList<>();
             customAdapter = new CustomAdapter(this);
             //**********************
             String[] getParams = {"compdata"};
-            MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+            String[] param = {"formdata?usn="+LoginActivity.USN};
+            JSONArray studentResponse = new JSONArray();
+
+            MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse() {
+
+                @Override
+                public void processFinish(String output) {
+                    try {
+
+                        JSONArray response = new JSONArray(output);
+                        setStudentDetail(response.getJSONObject(0));
+                        Log.d("hello",response.toString());
+
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).execute(param);
+            MyGet asyncTask1 = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
                 @Override
                 public void processFinish(String output){
@@ -175,19 +222,27 @@ public class MainActivity extends AppCompatActivity
                         //Log.d("hello", companies.getString(0));
 
                         for (int i = 0; i < companies.length(); i++) {
-                            if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company") && !companies.getJSONObject(i).getString("Date").equals("") && !companies.getJSONObject(i).getString("Company").equals("") && !companies.getJSONObject(i).getString("Branch").equals("")){
+                            if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company") && companies.getJSONObject(i).has("Branch") && !companies.getJSONObject(i).getString("Date").equals("") && !companies.getJSONObject(i).getString("Company").equals("") && !companies.getJSONObject(i).getString("Branch").equals("")){
                                 String compName = companies.getJSONObject(i).getString("Company");
                                 String compCtc = companies.getJSONObject(i).getString("CTC");
+                                String compDate = companies.getJSONObject(i).getString("Date");
 
+                                Date fcompDate = new SimpleDateFormat("yyyy-MM-dd").parse(compDate);
+                                Date currDate = new Date();
+                                if(currDate.compareTo(fcompDate)>0){
+                                    continue;
+                                }
                                 Log.d("hello", compName);
                                 companyList.add(compName);
                                 ctcList.add(compCtc);
                                 linkList.add("https://www.google.co.in");
                                 companyJsonList.add(companies.getJSONObject(i));
+                                eligibilityString.add(checkEligibility(Float.parseFloat(compCtc.replace("LPA",""))));
+
                             }
                         }
                     }
-                    catch (JSONException e) {
+                    catch (JSONException | ParseException e) {
                         e.printStackTrace();
                     }
                     companiesView = (ListView) findViewById(R.id.companylist);
