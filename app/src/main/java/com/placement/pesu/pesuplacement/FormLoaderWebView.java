@@ -36,9 +36,11 @@ public class FormLoaderWebView extends Activity {
             }
         });
 
-        mWebview .loadUrl("https://sramako.github.io/formclient.html?company="+company_name);
-        setContentView(mWebview );
+        mWebview.loadUrl("https://sramako.github.io/formclient.html?company="+company_name);
+        setContentView(mWebview);
+
 
     }
+
 
 }
