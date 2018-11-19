@@ -49,7 +49,11 @@
         <activity
             android:name=".SingleExperienceActivity"
             android:label="@string/title_activity_single_experience"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LearningChooseCollegeActivity"
+            android:label="@string/title_activity_learning_choose_college"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
