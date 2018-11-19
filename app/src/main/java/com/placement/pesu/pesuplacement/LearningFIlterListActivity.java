@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,6 +21,7 @@ public class LearningFIlterListActivity extends AppCompatActivity implements and
     ListView lv;
     ArrayList<String> filterNames=new ArrayList<String>();
     ChosenFilters chosenFilters;
+    String college;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,56 +29,48 @@ public class LearningFIlterListActivity extends AppCompatActivity implements and
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle b = getIntent().getExtras();
+        this.college= "other"; // or other values
+        if(b != null)
+            this.college = b.getString("college");
 
-        this.filterNames.add("College");
+
         this.filterNames.add("Company");
         this.filterNames.add("Tags");
         this.chosenFilters=new ChosenFilters(this.filterNames);
-
-
-
 
 
         // set visibility of list to INVISIBLE
         lv = (ListView) findViewById(R.id.listView);
         lv.setVisibility(View.INVISIBLE);
 
-        FilterList collFilterList = new FilterList("College");
 
-        FilterList compFilterList = new FilterList("Company");
+        FilterList compFilterList = new FilterList("Company",lv,this);
 
-        FilterList tagsFilterList = new FilterList("Tags");
+        FilterList tagsFilterList = new FilterList("Tags",lv,this);
 
-
-        collFilterList.add("PES University");
-        collFilterList.add("Other");
-
-
-        //compFilterList.getFilterElements();
-//        tagsFilterList.getFilterElements();
-
-        compFilterList.add("Oracle");
-        compFilterList.add("company 1");
-        tagsFilterList.add("tags 1");
-        tagsFilterList.add("tags 2");
-
-        final ExperienceFilterAdapter collAdapter=new ExperienceFilterAdapter("College",collFilterList,this);
         final ExperienceFilterAdapter compAdapter=new ExperienceFilterAdapter("Company",compFilterList,this);
         final ExperienceFilterAdapter tagsAdapter=new ExperienceFilterAdapter("Tags",tagsFilterList,this);
 
-        Button collfilterButton=(Button)findViewById(R.id.collFilterButton);
+        compFilterList.addAdapter(compAdapter);
+        tagsFilterList.addAdapter(tagsAdapter);
+
+        if(this.college.equals("other")) {
+            compFilterList.getFilterItems();
+            tagsFilterList.getFilterItems();
+
+        }
+        else if(this.college.equals("PES")){
+            System.out.println("getting filter items for PES");
+            compFilterList.getFilterItemsPES();
+            tagsFilterList.getFilterItemsPES();
+        }
+
+
         Button compfilterButton=(Button)findViewById(R.id.compFilterButton);
         Button tagsfilterButton=(Button)findViewById(R.id.tagsFilterButton);
 
 
-        collfilterButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                lv.setVisibility(View.INVISIBLE);
-                lv.setAdapter(collAdapter);
-                lv.setVisibility(View.VISIBLE);
-
-            }
-        });
         compfilterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 lv.setVisibility(View.INVISIBLE);
@@ -96,17 +90,18 @@ public class LearningFIlterListActivity extends AppCompatActivity implements and
 
         Button applyFilterButton = (Button)findViewById(R.id.applyFilterButton);
         applyFilterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(LearningFIlterListActivity.this, ExperienceListViewActivity.class);
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(LearningFIlterListActivity.this, ExperienceListViewActivity.class);
 
+                    Bundle b = new Bundle();
+                    b.putString("college",college);
+                    intent.putExtras(b);
+                    intent.putExtra("ChosenFilters", chosenFilters);
 
-                intent.putExtra("ChosenFilters",chosenFilters);
-
-                startActivity(intent);
-            }
-        });
+                    startActivity(intent);
+                }
+            });
 
     }
 

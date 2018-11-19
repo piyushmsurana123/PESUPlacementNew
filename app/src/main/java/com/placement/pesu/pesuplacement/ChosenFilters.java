@@ -67,4 +67,27 @@ public class ChosenFilters  implements Parcelable{
         return result;
 
     }
+
+    public String getFilterParams(){
+        ArrayList<String> res=new ArrayList<>();
+
+        Set<String> keys = this.cFilters.keySet();
+        for(String key: keys){
+            if(key!="College"){
+                ArrayList valueList=this.cFilters.get(key);
+                key=key.toLowerCase();
+                
+                for(int i=0;i<valueList.size();i++){
+                    res.add(key+"="+valueList.get(i).toString());
+                }
+            }
+
+
+        }
+        String result="?";
+        for(String r:res){
+            result=result+r+"&";
+        }
+        return result;
+    }
 }

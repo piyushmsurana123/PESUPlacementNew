@@ -51,6 +51,10 @@
             android:label="@string/title_activity_single_experience"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".LearningChooseCollegeActivity"
+            android:label="@string/title_activity_learning_choose_college"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".CompanyDetailsActivity"
             android:label="@string/title_activity_company_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -59,6 +63,7 @@
             android:name=".FormLoaderWebView"
             android:label="@string/title_activity_form"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>
