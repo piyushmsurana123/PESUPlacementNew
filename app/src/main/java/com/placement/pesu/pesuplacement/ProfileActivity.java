@@ -2,51 +2,55 @@ package com.placement.pesu.pesuplacement;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class
 ProfileActivity extends AppCompatActivity {
 
-    String srn,name, emailId, cgpa, degreeCourse, branch, tenthDetails, twelvethDetails;
-    int contactNo, yearOfGraduation;
-    EditText srnInput;
-    EditText nameInput;
     EditText emailIdInput;
+    EditText srnInput;
+    EditText contactNoInput;
+    EditText nameInput;
     EditText cgpaInput;
+    EditText yearOfGraduationInput;
     EditText degreeCourseInput;
     EditText branchInput;
     EditText tenthDetailsInput;
     EditText twelfthDetailsInput;
-    EditText contactNoInput;
-    EditText yearOfGraduationInput;
+
     Button uploadResume;
+    Button changePassword;
     Button submitButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        srnInput = (EditText) findViewById(R.id.srnInput);
-        nameInput = (EditText) findViewById(R.id.nameInput);
-        emailIdInput = (EditText) findViewById(R.id.emailIdInput);
-        cgpaInput = (EditText) findViewById(R.id.cgpaInput);
-        degreeCourseInput = (EditText) findViewById(R.id.degreeCourseInput);
-        branchInput = (EditText) findViewById(R.id.branchInput);
-        tenthDetailsInput = (EditText) findViewById(R.id.tenthDetailsInput);
-        twelfthDetailsInput = (EditText) findViewById(R.id.twelvethDetailsInput);
-        contactNoInput = (EditText) findViewById(R.id.contactNoInput);
-        yearOfGraduationInput = (EditText) findViewById(R.id.yearOfGraduationInput);
-        uploadResume = (Button) findViewById(R.id.uploadResume);
-        submitButton = (Button) findViewById(R.id.submitButton);
+        emailIdInput = (EditText) findViewById(R.id.email);
+        srnInput = (EditText) findViewById(R.id.usn);
+        contactNoInput = (EditText) findViewById(R.id.contact);
+        nameInput = (EditText) findViewById(R.id.name);
+        yearOfGraduationInput = (EditText) findViewById(R.id.yog);
+        cgpaInput = (EditText) findViewById(R.id.cgpa);
+        degreeCourseInput = (EditText) findViewById(R.id.course);
+        branchInput = (EditText) findViewById(R.id.branch);
+        tenthDetailsInput = (EditText) findViewById(R.id.details_10th);
+        twelfthDetailsInput = (EditText) findViewById(R.id.details_12th);
+
+        uploadResume = (Button) findViewById(R.id.upload_resume_button);
+        changePassword = (Button) findViewById(R.id.change_password_button);
+        submitButton = (Button) findViewById(R.id.submit_details_button);
 
         uploadResume.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,72 +63,75 @@ ProfileActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                srn = srnInput.getText().toString();
-                name = nameInput.getText().toString();
-                emailId = emailIdInput.getText().toString();
-                cgpa = cgpaInput.getText().toString();
-                degreeCourse = degreeCourseInput.getText().toString();
-                branch = branchInput.getText().toString();
-                tenthDetails = tenthDetailsInput.getText().toString();
-                twelvethDetails = twelfthDetailsInput.getText().toString();
-                contactNo = Integer.valueOf(contactNoInput.getText().toString());
-                yearOfGraduation = Integer.valueOf(yearOfGraduationInput.getText().toString());
 
-                ProfileActivity postObject = new ProfileActivity();
+/*
+                ArrayList<String> urlparameters = new ArrayList<String>();
+                urlparameters.add(emailId);
+                urlparameters.add(srn);
+                urlparameters.add(contactNo);
+                urlparameters.add(name);
+                urlparameters.add(cgpa);
+                urlparameters.add(yearOfGraduation);
+                urlparameters.add(degreeCourse);
+                urlparameters.add(branch);
+                urlparameters.add(tenthDetails);
+                urlparameters.add(twelvethDetails);
+
+                HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
+                httpURLConnectionExample.sendPost("updateprofile",urlparameters);
+
+ */
+                JSONObject postData = new JSONObject();
                 try {
-                    postObject.sendPost(srn,name,emailId,cgpa,degreeCourse,branch,tenthDetails,twelvethDetails,contactNo,yearOfGraduation);
-                } catch (Exception e) {
+                    postData.put("email", srnInput.getText().toString());
+                    postData.put("usn", srnInput.getText().toString());
+                    postData.put("contact",contactNoInput.getText().toString());
+                    postData.put("name", nameInput.getText().toString());
+                    postData.put("cgpa", cgpaInput.getText().toString());
+                    postData.put("yog", yearOfGraduationInput.getText().toString());
+                    postData.put("course", degreeCourseInput.getText().toString());
+                    postData.put("branch", branchInput.getText().toString());
+                    postData.put("details_10th", tenthDetailsInput.getText().toString());
+                    postData.put("details_12th", twelfthDetailsInput.getText().toString());
+                    Log.d("Initiating POST request", "finished collecting url parameters");
+                    new SendProfileDetails().execute("https://ppdb-ep.herokuapp.com/updateprofile", postData.toString());
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                //showToast(name);
-                //showToast(emailId);
 
             }
         });
 
+        String param = "formdata?usn=01FB15ECS320";
+
+        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+
+            @Override
+            public void processFinish(String output){
+                //Here you will receive the result fired from async class
+                //of onPostExecute(result) method.
+                //Log.d("GET response",output);
+                try {
+                    JSONArray response = new JSONArray(output);
+                    srnInput.setText(response.getJSONObject(0).getString("usn"));
+                    emailIdInput.setText(response.getJSONObject(0).getString("email"));
+                    nameInput.setText(response.getJSONObject(0).getString("name"));
+                    cgpaInput.setText(response.getJSONObject(0).getString("cgpa"));
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).execute(param);
+
+
+
+
     }
 
 
-    public void sendPost(String srn, String name, String emailId, String cgpa, String degreeCourse, String branch, String tenthDetails, String twelvethDetails, Integer contactNo, Integer yearOfGraduation ) throws Exception {
-
-        String USER_AGENT = "Mozilla/5.0";
-        String url = "https://ppdb-ep.herokuapp.com/login";
-        URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-        String urlParameters = "srn="+srn+"&name="+name+"&emailId="+emailId+"&cgpa"+cgpa+"&degreeCourse"+degreeCourse+"&branch="+branch+"&tenthDetails="+tenthDetails+"&twelvethDetails="+twelvethDetails+"&contactNo"+contactNo.toString()+"&yearOfGraduation="+yearOfGraduation.toString();
-
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        System.out.println(response.toString());
-
-    }
 
 }
