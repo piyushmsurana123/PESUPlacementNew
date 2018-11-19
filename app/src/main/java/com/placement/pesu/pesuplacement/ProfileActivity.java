@@ -102,7 +102,7 @@ ProfileActivity extends AppCompatActivity {
             }
         });
 
-        String param = "formdata?usn=01FB15ECS320";
+        String param = "formdata?usn="+LoginActivity.USN;
 
         MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
@@ -112,7 +112,9 @@ ProfileActivity extends AppCompatActivity {
                 //of onPostExecute(result) method.
                 //Log.d("GET response",output);
                 try {
+
                     JSONArray response = new JSONArray(output);
+                    Log.d("hello",response.toString());
                     srnInput.setText(response.getJSONObject(0).getString("usn"));
                     emailIdInput.setText(response.getJSONObject(0).getString("email"));
                     nameInput.setText(response.getJSONObject(0).getString("name"));

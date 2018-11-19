@@ -1,6 +1,7 @@
 package com.placement.pesu.pesuplacement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<JSONObject> companyJsonList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -52,52 +54,10 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-        companyList = new ArrayList<>();
-        ctcList = new ArrayList<>();
-        linkList = new ArrayList<>();
-        companyJsonList = new ArrayList<>();
-        customAdapter = new CustomAdapter(this);
-        //**********************
-        String[] getParams = {"compdata"};
-        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
-
-            @Override
-            public void processFinish(String output){
-                //Here you will receive the result fired from async class
-                //of onPostExecute(result) method.
-                try {
-                    JSONArray companies = new JSONArray(output);
-                    //Log.d("hello", companies.getString(0));
-
-                    for (int i = 0; i < companies.length(); i++) {
-                        if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company") && !companies.getJSONObject(i).getString("Date").equals("") && !companies.getJSONObject(i).getString("Company").equals("") && !companies.getJSONObject(i).getString("Branch").equals("")){
-                            String compName = companies.getJSONObject(i).getString("Company");
-                            String compCtc = companies.getJSONObject(i).getString("CTC");
-
-                            Log.d("hello", compName);
-                            companyList.add(compName);
-                            ctcList.add(compCtc);
-                            linkList.add("https://www.google.co.in");
-                            companyJsonList.add(companies.getJSONObject(i));
-                        }
-                    }
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                companiesView = (ListView) findViewById(R.id.companylist);
-
-                modelArrayList = getModel();
-
-                companiesView.setAdapter(customAdapter);
-
-                Log.d("hello",output);
-            }
-        }).execute(getParams);
 
 
 
-        //**********************
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,12 +68,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //***************************
-
-
-
-
-         //****************************/
 
     }
 
@@ -147,6 +101,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        showCompany();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -186,6 +146,60 @@ public class MainActivity extends AppCompatActivity
             list.add(model);
         }
         return list;
+    }
+
+    private void showCompany() {
+        SharedPreferences sp = getSharedPreferences("login", MODE_PRIVATE);
+        if(sp.getBoolean("logged", false)){
+
+            TextView welcome = findViewById(R.id.welcome);
+
+            welcome.setVisibility(View.INVISIBLE);
+
+            companiesView.setVisibility(View.VISIBLE);
+            companyList = new ArrayList<>();
+            ctcList = new ArrayList<>();
+            linkList = new ArrayList<>();
+            companyJsonList = new ArrayList<>();
+            customAdapter = new CustomAdapter(this);
+            //**********************
+            String[] getParams = {"compdata"};
+            MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+
+                @Override
+                public void processFinish(String output){
+                    //Here you will receive the result fired from async class
+                    //of onPostExecute(result) method.
+                    try {
+                        JSONArray companies = new JSONArray(output);
+                        //Log.d("hello", companies.getString(0));
+
+                        for (int i = 0; i < companies.length(); i++) {
+                            if(companies.getJSONObject(i).has("Date") && companies.getJSONObject(i).has("Company") && !companies.getJSONObject(i).getString("Date").equals("") && !companies.getJSONObject(i).getString("Company").equals("") && !companies.getJSONObject(i).getString("Branch").equals("")){
+                                String compName = companies.getJSONObject(i).getString("Company");
+                                String compCtc = companies.getJSONObject(i).getString("CTC");
+
+                                Log.d("hello", compName);
+                                companyList.add(compName);
+                                ctcList.add(compCtc);
+                                linkList.add("https://www.google.co.in");
+                                companyJsonList.add(companies.getJSONObject(i));
+                            }
+                        }
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    companiesView = (ListView) findViewById(R.id.companylist);
+
+                    modelArrayList = getModel();
+
+                    companiesView.setAdapter(customAdapter);
+
+                    Log.d("hello",output);
+                }
+            }).execute(getParams);
+        }
     }
 
 }
