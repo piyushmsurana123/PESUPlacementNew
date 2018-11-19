@@ -10,10 +10,10 @@ import android.annotation.TargetApi;
 public class FormLoaderWebView extends Activity {
 
     private WebView mWebview ;
-    public String company_name="Epsilon";
+    public String company_name;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        company_name=getIntent().getStringExtra("company_name");
         super.onCreate(savedInstanceState);
 
         mWebview  = new WebView(this);
