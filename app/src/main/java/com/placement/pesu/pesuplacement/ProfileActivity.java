@@ -13,8 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class
-ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     EditText emailIdInput;
     EditText srnInput;
