@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">PESU Placement</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -45,10 +45,14 @@
     <string name="action_submit_details">Submit Details</string>
     <string name="action_change_password">Change Password</string>
 
-    <string name="title_activity_learning_filter_list">LearningFIlterListActivity</string>
-    <string name="title_activity_experience_list_view">ExperienceListViewActivity</string>
-    <string name="title_activity_simple_experience">SimpleExperienceActivity</string>
-    <string name="title_activity_single_experience">SingleExperienceActivity</string>
+
     <string name="title_activity_company_details">CompanyDetails</string>
+
+    <string name="title_activity_learning_choose_college">Choose your university</string>
+    <string name="title_activity_single_university">SingleUniversityActivity</string>
+
+
     <string name="title_activity_form">Form</string>
+
+
 </resources>
