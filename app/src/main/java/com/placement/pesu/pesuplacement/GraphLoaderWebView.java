@@ -1,4 +1,6 @@
 package com.placement.pesu.pesuplacement;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebResourceError;
@@ -6,14 +8,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import android.annotation.TargetApi;
-public class FormLoaderWebView extends Activity {
+
+public class GraphLoaderWebView extends Activity {
 
     private WebView mWebview ;
     public String company_name;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        company_name=getIntent().getStringExtra("company_name");
         super.onCreate(savedInstanceState);
 
         mWebview  = new WebView(this);
