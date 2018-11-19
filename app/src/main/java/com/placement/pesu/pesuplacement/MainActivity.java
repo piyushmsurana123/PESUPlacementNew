@@ -61,6 +61,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //**********************
+//        String[] getParams = {"listcomp"};
+//        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+//
+//            @Override
+//            public void processFinish(String output){
+//                //Here you will receive the result fired from async class
+//                //of onPostExecute(result) method.
+//                //Log.d("hello",output);
+//                try{
+//                    JSONArray jsonArray= new JSONArray(output);
+//                    Log.d("jsonObject",jsonArray.toString());
+//
+//                }
+//                catch(JSONException e){
+//                    Log.d("JSONException",e.toString());
+//
+//                    e.printStackTrace();
+//                }
+//                textView.setText(output);
+//            }
+//        }).execute(getParams);
 
 
 
@@ -295,7 +317,7 @@ public class MainActivity extends AppCompatActivity
 
 class MyGet extends AsyncTask<String, Void, String> {
 
-    private String response;
+    public String response;
     // you may separate this or combined to caller class.
      interface AsyncResponse {
         void processFinish(String output);

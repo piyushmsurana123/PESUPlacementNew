@@ -31,7 +31,10 @@
     <string name="title_activity_experience_list_view">Results</string>
     <string name="title_activity_simple_experience">SimpleExperienceActivity</string>
     <string name="title_activity_single_experience"></string>
+<<<<<<< HEAD
 
+=======
+>>>>>>> fef667b62959cff9c3bfec02d6935a79b802d1d5
 
 
     <!-- Strings related to profile page -->
@@ -51,9 +54,18 @@
 
 
     <string name="title_activity_company_details">CompanyDetails</string>
+<<<<<<< HEAD
     <string name="title_activity_learning_choose_college">Choose your university</string>
     <string name="title_activity_single_university">SingleUniversityActivity</string>
+=======
+
+    <string name="title_activity_learning_choose_college">Choose your university</string>
+    <string name="title_activity_single_university">SingleUniversityActivity</string>
+
+
+>>>>>>> fef667b62959cff9c3bfec02d6935a79b802d1d5
     <string name="title_activity_form">Form</string>
     <string name="graph_activity_form">Graph</string>
+
 
 </resources>

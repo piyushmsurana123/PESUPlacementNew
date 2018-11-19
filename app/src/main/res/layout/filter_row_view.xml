@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:paddingLeft="10dp">
 
         <CheckBox
             android:id="@+id/filterEntryCheckbox"
@@ -19,6 +20,6 @@
             android:id="@+id/filterEntryTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textStyle="bold" />
+            android:textSize="18sp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
