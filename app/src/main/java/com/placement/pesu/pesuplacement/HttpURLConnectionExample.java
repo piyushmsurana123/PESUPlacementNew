@@ -1,12 +1,18 @@
 package com.placement.pesu.pesuplacement;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -46,44 +52,39 @@ public class HttpURLConnectionExample {
     }
 
     // HTTP POST request
-    private String sendPost(String data) throws Exception {
+    public void sendPost(String endpoint, ArrayList<String> urlparameters) throws Exception {
+        URL url = new URL("https://ppdb-ep.herokuapp.com/");
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        conn.setReadTimeout(10000);
+        conn.setConnectTimeout(15000);
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
 
-        String url = URL + "formdata";
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        if(endpoint.equals("updateprofile")){
+            System.out.println("in update profile");
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("email", urlparameters.get(0))
+                    .appendQueryParameter("usn", urlparameters.get(1))
+                    .appendQueryParameter("contact", urlparameters.get(2))
+                    .appendQueryParameter("name", urlparameters.get(3))
+                    .appendQueryParameter("cgpa", urlparameters.get(4))
+                    .appendQueryParameter("yog", urlparameters.get(5))
+                    .appendQueryParameter("course", urlparameters.get(6))
+                    .appendQueryParameter("branch",urlparameters.get(7))
+                    .appendQueryParameter("details_10th", urlparameters.get(8))
+                    .appendQueryParameter("details_12th", urlparameters.get(9));
 
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-        String urlParameters = "usn=1&pass=1";
-
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            String query = builder.build().getEncodedQuery();
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(query);
+            writer.flush();
+            writer.close();
+            os.close();
         }
-        in.close();
-
-        //print result
-        System.out.println(response.toString());
-        return response.toString();
+        conn.connect();
 
     }
 

@@ -2,22 +2,18 @@ package com.placement.pesu.pesuplacement;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class
 ProfileActivity extends AppCompatActivity {
 
-    String emailId, srn, name, cgpa, degreeCourse, branch, tenthDetails, twelvethDetails;
-    int contactNo, yearOfGraduation;
     EditText emailIdInput;
     EditText srnInput;
     EditText contactNoInput;
@@ -49,7 +45,7 @@ ProfileActivity extends AppCompatActivity {
         twelfthDetailsInput = (EditText) findViewById(R.id.details_12th);
 
         uploadResume = (Button) findViewById(R.id.upload_resume_button);
-        changePassword = (Button) findViewById(R.id.change_password_button)
+        changePassword = (Button) findViewById(R.id.change_password_button);
         submitButton = (Button) findViewById(R.id.submit_details_button);
 
         uploadResume.setOnClickListener(new View.OnClickListener() {
@@ -63,18 +59,41 @@ ProfileActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                srn = srnInput.getText().toString();
-                name = nameInput.getText().toString();
-                emailId = emailIdInput.getText().toString();
-                cgpa = cgpaInput.getText().toString();
-                degreeCourse = degreeCourseInput.getText().toString();
-                branch = branchInput.getText().toString();
-                tenthDetails = tenthDetailsInput.getText().toString();
-                twelvethDetails = twelfthDetailsInput.getText().toString();
-                contactNo = Integer.valueOf(contactNoInput.getText().toString());
-                yearOfGraduation = Integer.valueOf(yearOfGraduationInput.getText().toString());
 
+/*
+                ArrayList<String> urlparameters = new ArrayList<String>();
+                urlparameters.add(emailId);
+                urlparameters.add(srn);
+                urlparameters.add(contactNo);
+                urlparameters.add(name);
+                urlparameters.add(cgpa);
+                urlparameters.add(yearOfGraduation);
+                urlparameters.add(degreeCourse);
+                urlparameters.add(branch);
+                urlparameters.add(tenthDetails);
+                urlparameters.add(twelvethDetails);
 
+                HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
+                httpURLConnectionExample.sendPost("updateprofile",urlparameters);
+
+ */
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put("emailId", srnInput.getText().toString());
+                    postData.put("usn", srnInput.getText().toString());
+                    postData.put("contact",contactNoInput.getText().toString());
+                    postData.put("name", nameInput.getText().toString());
+                    postData.put("cgpa", cgpaInput.getText().toString());
+                    postData.put("yog", yearOfGraduationInput.getText().toString());
+                    postData.put("course", degreeCourseInput.getText().toString());
+                    postData.put("branch", branchInput.getText().toString());
+                    postData.put("details_10th", tenthDetailsInput.getText().toString());
+                    postData.put("details_12th", twelfthDetailsInput.getText().toString());
+                    Log.d("Initiating POST request", "finished collecting url parameters");
+                    new SendProfileDetails().execute("https://ppdb-ep.herokuapp.com/updateprofile", postData.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
