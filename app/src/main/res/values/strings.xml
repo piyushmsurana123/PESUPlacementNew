@@ -47,5 +47,6 @@
     <string name="title_activity_single_experience">SingleExperienceActivity</string>
 
     <string name="title_activity_company_details">CompanyDetails</string>
+    <string name="title_activity_form">Form</string>
 
 </resources>

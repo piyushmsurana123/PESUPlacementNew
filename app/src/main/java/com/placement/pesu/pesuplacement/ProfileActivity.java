@@ -132,7 +132,9 @@ ProfileActivity extends AppCompatActivity {
                 //of onPostExecute(result) method.
                 //Log.d("GET response",output);
                 try {
+
                     JSONArray response = new JSONArray(output);
+                    Log.d("hello",response.toString());
                     srnInput.setText(response.getJSONObject(0).getString("usn"));
                     emailIdInput.setText(response.getJSONObject(0).getString("email"));
                     nameInput.setText(response.getJSONObject(0).getString("name"));

@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    public String USN;
+    public static String USN;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -338,6 +338,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
+                    USN = "01FB15ECS111";
                     return pieces[1].equals(mPassword);
                 }
             }
@@ -348,7 +349,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 postData.put("password", mPassword);
                 HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
                 String response = httpURLConnectionExample.sendPost("login",postData.toString());
-                if(response.contains("true"))
+                Log.d("login", response.toString());
+                if(response.toString().contains("true"))
                 {
                     if(!mEmail.contains("@"))
                         USN = mEmail;
@@ -379,14 +381,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                     return true;
                 }
+                else
+                    return false;
             }
             catch (Exception e)
             {
                 e.printStackTrace();
+                return false;
             }
 
 
-            return false;
         }
 
         @Override

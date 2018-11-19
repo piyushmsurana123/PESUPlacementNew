@@ -38,7 +38,6 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".random" />
         <activity
             android:name=".LearningFIlterListActivity"
             android:label="@string/title_activity_learning_filter_list"
@@ -54,6 +53,11 @@
         <activity
             android:name=".CompanyDetailsActivity"
             android:label="@string/title_activity_company_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".FormLoaderWebView"
+            android:label="@string/title_activity_form"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

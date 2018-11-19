@@ -69,7 +69,8 @@ public class CustomAdapter  extends BaseAdapter {
 
         holder.tvCompany.setText(MainActivity.modelArrayList.get(position).getCompany());
         holder.tvCtc.setText(String.valueOf(MainActivity.modelArrayList.get(position).getCtc()));
-        final String company_details = MainActivity.modelArrayList.get(position).getCompanyDetailsJson().toString();
+        final String companyDetails = MainActivity.modelArrayList.get(position).getCompanyDetailsJson().toString();
+        final String companyName = MainActivity.modelArrayList.get(position).getCompany();
 
         holder.apply.setTag(R.integer.apply_view, convertView);
         holder.apply.setTag(R.integer.apply_pos, position);
@@ -77,10 +78,10 @@ public class CustomAdapter  extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                String url = "https://www.google.co.in";
 
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
+
+                Intent i = new Intent(context, FormLoaderWebView.class);
+                i.putExtra("company_name",companyName);
                 context.startActivity(i);
 
             }
@@ -93,7 +94,7 @@ public class CustomAdapter  extends BaseAdapter {
             public void onClick(View v) {
 
                 Intent i = new Intent(context, CompanyDetailsActivity.class);
-                i.putExtra("company_details",company_details);
+                i.putExtra("company_details",companyDetails);
                 context.startActivity(i);
 
             }

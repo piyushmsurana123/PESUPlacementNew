@@ -2,6 +2,7 @@ package com.placement.pesu.pesuplacement;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -64,11 +65,13 @@ public class HttpURLConnectionExample {
         httpURLConnection.setRequestMethod("POST");
         httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
         httpURLConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        httpURLConnection.setRequestProperty("Content-type", "application/json");
 
         httpURLConnection.setDoOutput(true);
 
         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-        wr.writeBytes("PostData=" + params);
+        Log.d("params",params);
+        wr.writeBytes(params);
         wr.flush();
         wr.close();
 
