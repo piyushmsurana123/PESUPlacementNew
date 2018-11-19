@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="apply_view">1</integer>
+    <integer name="apply_pos">2</integer>
+    <integer name="details_view">3</integer>
+    <integer name="details_pos">4</integer>
+</resources>

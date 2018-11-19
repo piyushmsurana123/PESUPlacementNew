@@ -1,12 +1,20 @@
 package com.placement.pesu.pesuplacement;
 
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -46,44 +54,39 @@ public class HttpURLConnectionExample {
     }
 
     // HTTP POST request
-    private String sendPost(String data) throws Exception {
+    public String sendPost(String data1, String params) throws Exception {
 
-        String url = URL + "formdata";
+        String url = URL + data1;
+        String response="";
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
 
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        //add request header
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+        httpURLConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        httpURLConnection.setRequestProperty("Content-type", "application/json");
 
-        String urlParameters = "usn=1&pass=1";
+        httpURLConnection.setDoOutput(true);
 
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
+        DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+        Log.d("params",params);
+        wr.writeBytes(params);
         wr.flush();
         wr.close();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
+        InputStream in = httpURLConnection.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(in);
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        int inputStreamData = inputStreamReader.read();
+        while (inputStreamData != -1) {
+            char current = (char) inputStreamData;
+            inputStreamData = inputStreamReader.read();
+            response += current;
         }
-        in.close();
 
-        //print result
-        System.out.println(response.toString());
-        return response.toString();
+        return response;
+
 
     }
 
