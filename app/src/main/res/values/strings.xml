@@ -24,6 +24,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_learning_filter_list">Filter interview experiences</string>
+    <string name="title_activity_experience_list_view">Results</string>
+    <string name="title_activity_simple_experience">SimpleExperienceActivity</string>
+    <string name="title_activity_single_experience"></string>
 
 
     <!-- Strings related to profile page -->
@@ -45,8 +49,6 @@
     <string name="title_activity_experience_list_view">ExperienceListViewActivity</string>
     <string name="title_activity_simple_experience">SimpleExperienceActivity</string>
     <string name="title_activity_single_experience">SingleExperienceActivity</string>
-
     <string name="title_activity_company_details">CompanyDetails</string>
     <string name="title_activity_form">Form</string>
-
 </resources>
