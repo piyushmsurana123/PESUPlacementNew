@@ -32,15 +32,23 @@ public class FormLoaderWebView extends Activity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
                 // Redirect to deprecated method, so you can use it in all SDK versions
-                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+                //onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+                finish();
             }
         });
 
-        mWebview.loadUrl("https://sramako.github.io/formclient.html?company="+company_name);
-        setContentView(mWebview);
+        String url = "https://sramako.github.io/formclient.html?company="+company_name;
+        mWebview.loadUrl(url);
 
+        //setContentView(mWebview);
 
+        if (url.contains("http://exitme"))
+            finish();  // close activity
+        else
+            setContentView(mWebview);
     }
+
+
 
 
 }

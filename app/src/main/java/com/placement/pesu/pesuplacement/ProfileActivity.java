@@ -113,6 +113,7 @@ ProfileActivity extends AppCompatActivity {
                     postData.put("branch", branchInput.getText().toString());
                     postData.put("details_10th", tenthDetailsInput.getText().toString());
                     postData.put("details_12th", twelfthDetailsInput.getText().toString());
+
                     Log.d("Initiating POST request", "finished collecting url parameters");
                     new SendProfileDetails().execute("https://ppdb-ep.herokuapp.com/updateprofile", postData.toString());
                 } catch (JSONException e) {
