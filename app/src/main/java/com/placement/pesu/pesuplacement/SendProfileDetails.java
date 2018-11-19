@@ -23,9 +23,10 @@ public class SendProfileDetails extends AsyncTask<String, Void, String> {
             httpURLConnection.setRequestMethod("POST");
 
             httpURLConnection.setDoOutput(true);
-
+            httpURLConnection.setRequestProperty("Content-type","application/json");
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-            wr.writeBytes("PostData=" + params[1]);
+            System.out.println(params[1]);
+            wr.writeBytes(params[1]);
             wr.flush();
             wr.close();
 

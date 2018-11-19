@@ -103,11 +103,11 @@ ProfileActivity extends AppCompatActivity {
  */
                 JSONObject postData = new JSONObject();
                 try {
-                    postData.put("email", srnInput.getText().toString());
+                    postData.put("email", emailIdInput.getText().toString());
                     postData.put("usn", srnInput.getText().toString());
                     postData.put("contact",contactNoInput.getText().toString());
                     postData.put("name", nameInput.getText().toString());
-                    postData.put("cgpa", cgpaInput.getText().toString());
+                    postData.put("score_gpa", cgpaInput.getText().toString());
                     postData.put("yog", yearOfGraduationInput.getText().toString());
                     postData.put("course", degreeCourseInput.getText().toString());
                     postData.put("branch", branchInput.getText().toString());
@@ -122,7 +122,7 @@ ProfileActivity extends AppCompatActivity {
             }
         });
 
-        String param = "formdata?usn=01FB15ECS320";
+        String param = "formdata?usn="+LoginActivity.USN;
 
         MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
@@ -136,7 +136,7 @@ ProfileActivity extends AppCompatActivity {
                     srnInput.setText(response.getJSONObject(0).getString("usn"));
                     emailIdInput.setText(response.getJSONObject(0).getString("email"));
                     nameInput.setText(response.getJSONObject(0).getString("name"));
-                    cgpaInput.setText(response.getJSONObject(0).getString("cgpa"));
+                    cgpaInput.setText(response.getJSONObject(0).getString("score_gpa"));
 
                 }
                 catch (JSONException e) {
