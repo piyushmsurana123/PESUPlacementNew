@@ -58,8 +58,8 @@ public class CustomAdapter  extends BaseAdapter {
 
             holder.tvCompany = (TextView) convertView.findViewById(R.id.company);
             holder.tvCtc = (TextView) convertView.findViewById(R.id.ctc);
-            holder.apply = (Button) convertView.findViewById(R.id.plus);
-            holder.btn_details = (Button) convertView.findViewById(R.id.minus);
+            holder.apply = (Button) convertView.findViewById(R.id.apply_button);
+            holder.btn_details = (Button) convertView.findViewById(R.id.details_button);
 
             convertView.setTag(holder);
         }else {
@@ -69,7 +69,7 @@ public class CustomAdapter  extends BaseAdapter {
 
         holder.tvCompany.setText(MainActivity.modelArrayList.get(position).getCompany());
         holder.tvCtc.setText(String.valueOf(MainActivity.modelArrayList.get(position).getCtc()));
-
+        final String company_details = MainActivity.modelArrayList.get(position).getCompanyDetailsJson().toString();
 
         holder.apply.setTag(R.integer.apply_view, convertView);
         holder.apply.setTag(R.integer.apply_pos, position);
@@ -92,13 +92,9 @@ public class CustomAdapter  extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                View tempview = (View) holder.btn_details.getTag(R.integer.details_view);
-                TextView tv = (TextView) tempview.findViewById(R.id.company);
-                Integer pos = (Integer) holder.btn_details.getTag(R.integer.details_pos);
-
-                String ctc = tv.getText().toString();
-
-                //MainActivity.modelArrayList.get(pos).setCtc(number);
+                Intent i = new Intent(context, CompanyDetailsActivity.class);
+                i.putExtra("company_details",company_details);
+                context.startActivity(i);
 
             }
         });
