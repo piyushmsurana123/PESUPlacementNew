@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +30,8 @@ ProfileActivity extends AppCompatActivity {
     Button uploadResume;
     Button changePassword;
     Button submitButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +83,7 @@ ProfileActivity extends AppCompatActivity {
  */
                 JSONObject postData = new JSONObject();
                 try {
-                    postData.put("emailId", srnInput.getText().toString());
+                    postData.put("email", srnInput.getText().toString());
                     postData.put("usn", srnInput.getText().toString());
                     postData.put("contact",contactNoInput.getText().toString());
                     postData.put("name", nameInput.getText().toString());
@@ -97,6 +101,34 @@ ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        String param = "formdata?usn=01FB15ECS320";
+
+        MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse(){
+
+            @Override
+            public void processFinish(String output){
+                //Here you will receive the result fired from async class
+                //of onPostExecute(result) method.
+                //Log.d("GET response",output);
+                try {
+                    JSONArray response = new JSONArray(output);
+                    srnInput.setText(response.getJSONObject(0).getString("usn"));
+                    emailIdInput.setText(response.getJSONObject(0).getString("email"));
+                    nameInput.setText(response.getJSONObject(0).getString("name"));
+                    cgpaInput.setText(response.getJSONObject(0).getString("cgpa"));
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).execute(param);
+
+
+
 
     }
 
