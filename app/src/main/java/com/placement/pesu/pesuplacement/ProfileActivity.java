@@ -169,7 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                     //emailIdInput.setFocusable(false);
                     nameInput.setText(response.getJSONObject(0).getString("name"));
 
-                    nameInput.setFocusable(false);git
+                    nameInput.setFocusable(false);
                     cgpaInput.setText(response.getJSONObject(0).getString("score_gpa"));
                     cgpaInput.setFocusable(false);
 
