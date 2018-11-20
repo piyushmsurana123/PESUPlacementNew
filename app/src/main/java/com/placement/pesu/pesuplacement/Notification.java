@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -17,7 +18,7 @@ public class Notification extends AppCompatActivity {
     SharedPreferences sp;
     String res;
     JSONArray jsonArray;
-
+    ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +38,20 @@ public class Notification extends AppCompatActivity {
             }
 
         }
+
+
+        // set visibility of list to INVISIBLE
+        lv = (ListView) findViewById(R.id.notifListView);
+
+        NotifTextList notifTextList=new NotifTextList(lv,this);
+        NotifTextListAdapter notifTextListAdapter = new NotifTextListAdapter(notifTextList,this);
+        notifTextList.addAdapter(notifTextListAdapter);
+
+
+//        companyDatesList.add("ABC","123");
+//        companyDatesList.add("DEF","567");
+
+        lv.setAdapter(notifTextListAdapter);
+
     }
 }
