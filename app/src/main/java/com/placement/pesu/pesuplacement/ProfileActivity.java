@@ -3,7 +3,12 @@ package com.placement.pesu.pesuplacement;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -53,8 +58,8 @@ ProfileActivity extends AppCompatActivity {
         tenthDetailsInput = (EditText) findViewById(R.id.details_10th);
         twelfthDetailsInput = (EditText) findViewById(R.id.details_12th);
 
-        uploadResume = (Button) findViewById(R.id.upload_resume_button);
-        changePassword = (Button) findViewById(R.id.change_password_button);
+        //uploadResume = (Button) findViewById(R.id.upload_resume_button);
+        //changePassword = (Button) findViewById(R.id.change_password_button);
         submitButton = (Button) findViewById(R.id.submit_details_button);
 
         Boolean hasPermission = (ContextCompat.checkSelfPermission(ProfileActivity.this,
@@ -67,40 +72,21 @@ ProfileActivity extends AppCompatActivity {
             Log.d("Permission","user message, No permission to upload");
         }
 
-
+        /*
         uploadResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("document/*"); // intent.setType("video/*"); to select videos to upload
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
-
-
-
+                Intent i = new Intent(getApplicationContext(),Upload_Resume.class);
+                startActivity(i);
+                setContentView(R.layout.activity_upload__resume);
             }
         });
+        */
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-/*
-                ArrayList<String> urlparameters = new ArrayList<String>();
-                urlparameters.add(emailId);
-                urlparameters.add(srn);
-                urlparameters.add(contactNo);
-                urlparameters.add(name);
-                urlparameters.add(cgpa);
-                urlparameters.add(yearOfGraduation);
-                urlparameters.add(degreeCourse);
-                urlparameters.add(branch);
-                urlparameters.add(tenthDetails);
-                urlparameters.add(twelvethDetails);
-
-                HttpURLConnectionExample httpURLConnectionExample = new HttpURLConnectionExample();
-                httpURLConnectionExample.sendPost("updateprofile",urlparameters);
-
- */
                 JSONObject postData = new JSONObject();
                 try {
                     postData.put("email", emailIdInput.getText().toString());
@@ -113,7 +99,7 @@ ProfileActivity extends AppCompatActivity {
                     postData.put("branch", branchInput.getText().toString());
                     postData.put("details_10th", tenthDetailsInput.getText().toString());
                     postData.put("details_12th", twelfthDetailsInput.getText().toString());
-
+                    //postData.put("upload_resume",uploadResume.getText().toString());
                     Log.d("Initiating POST request", "finished collecting url parameters");
                     new SendProfileDetails().execute("https://ppdb-ep.herokuapp.com/updateprofile", postData.toString());
                 } catch (JSONException e) {
@@ -137,9 +123,13 @@ ProfileActivity extends AppCompatActivity {
                     JSONArray response = new JSONArray(output);
                     Log.d("hello",response.toString());
                     srnInput.setText(response.getJSONObject(0).getString("usn"));
+                    srnInput.setFocusable(false);
                     emailIdInput.setText(response.getJSONObject(0).getString("email"));
+                    //emailIdInput.setFocusable(false);
                     nameInput.setText(response.getJSONObject(0).getString("name"));
+                    nameInput.setFocusable(false);
                     cgpaInput.setText(response.getJSONObject(0).getString("score_gpa"));
+                    cgpaInput.setFocusable(false);
 
                 }
                 catch (JSONException e) {
