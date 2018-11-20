@@ -20,6 +20,7 @@ public class SingleExperienceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Exper exper = (Exper) getIntent().getParcelableExtra("Exper");
+        final String college=getIntent().getExtras().getString("college");
 
         TextView tv = (TextView) findViewById(R.id.singleExperTextView);
         tv.setText(exper.experText);
@@ -29,6 +30,9 @@ public class SingleExperienceActivity extends AppCompatActivity {
         singleExperChangeFilterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(SingleExperienceActivity.this, LearningFIlterListActivity.class);
+                Bundle b = new Bundle();
+                b.putString("college", college); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
 
             }
@@ -37,6 +41,9 @@ public class SingleExperienceActivity extends AppCompatActivity {
         singleExperChangeFilterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(SingleExperienceActivity.this, ExperienceListViewActivity.class);
+                Bundle b = new Bundle();
+                b.putString("college",college); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
 
             }

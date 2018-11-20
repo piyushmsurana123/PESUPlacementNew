@@ -33,7 +33,7 @@ public class ExperienceListViewActivity extends AppCompatActivity {
 
         ChosenFilters chosenFilters = (ChosenFilters) getIntent().getParcelableExtra("ChosenFilters");
         String param2;
-        String college=getIntent().getExtras().getString("college");
+        final String college=getIntent().getExtras().getString("college");
 
         experList=new ExperList(lv,this);
         expLvAdapter=new ExperienceListViewAdapter(this.experList,this);
@@ -57,6 +57,9 @@ public class ExperienceListViewActivity extends AppCompatActivity {
                                     long id) {
 
                 Intent intent = new Intent(ExperienceListViewActivity.this, SingleExperienceActivity.class);
+                Bundle b = new Bundle();
+                b.putString("college", college); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
                 intent.putExtra("Exper",ExperienceListViewActivity.this.experList.eList.get(position));
                 startActivity(intent);
 
@@ -68,7 +71,7 @@ public class ExperienceListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ExperienceListViewActivity.this, LearningFIlterListActivity.class);
                 Bundle b = new Bundle();
-                b.putString("college", "other"); //Your id
+                b.putString("college", college); //Your id
                 intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
 
