@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,13 +57,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         //**********************
 //        String[] getParams = {"listcomp"};
@@ -95,7 +93,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Notification.class);
+                try {
+                    i.putExtra("student",studentResponse.getString("my_nots"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -185,7 +194,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_companies) {
-
+            Intent intent = new Intent(MainActivity.this, CompanyDatesListActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_statistics) {
             Intent intent = new Intent(MainActivity.this, GraphLoaderWebView.class);
@@ -285,7 +295,8 @@ public class MainActivity extends AppCompatActivity
                                 if(currDate.compareTo(fcompDate)>0){
                                     continue;
                                 }
-                                if(studentResponse.has("registered") && studentResponse.getString("registered").contains(compName)) {
+
+                                if(studentResponse != null && studentResponse.has("registered") && studentResponse.getString("registered").contains(compName)) {
                                     continue;
                                 }
                                 Log.d("hello", compName);
@@ -311,6 +322,15 @@ public class MainActivity extends AppCompatActivity
                 }
             }).execute(getParams);
         }
+    }
+
+    void logout() {
+        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
+        sp.edit().putBoolean("logged",false).apply();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(LoginActivity.USN);
+        Intent intent = new Intent(this,LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 }
@@ -344,4 +364,6 @@ class MyGet extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         delegate.processFinish(result);
     }
+
+
 }

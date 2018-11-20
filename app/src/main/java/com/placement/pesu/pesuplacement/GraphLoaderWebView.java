@@ -12,7 +12,6 @@ import android.widget.Toast;
 public class GraphLoaderWebView extends Activity {
 
     private WebView mWebview ;
-    public String company_name;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,7 @@ public class GraphLoaderWebView extends Activity {
             }
         });
 
-        mWebview .loadUrl("https://sramako.github.io/formclient.html?company="+company_name);
+        mWebview .loadUrl("https://sramako.github.io/graph_mobile.html?company=");
         setContentView(mWebview );
 
     }

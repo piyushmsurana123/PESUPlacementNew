@@ -32,6 +32,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -351,8 +356,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if(response.toString().contains("true"))
                 {
                     if(!mEmail.contains("@")) {
-                        USN = mEmail;
-                        sp.edit().putString("usn", USN).apply();
+                        USN = mEmail.toUpperCase();
+                        sp.edit().putString("usn", USN.toUpperCase()).apply();
                     }
                     else
                     {
@@ -365,8 +370,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 //of onPostExecute(result) method.
                                 try {
                                     JSONArray user = new JSONArray(output);
-                                    USN = user.getJSONObject(0).getString("usn");
-                                    sp.edit().putString("usn", USN).apply();
+                                    USN = user.getJSONObject(0).getString("usn").toUpperCase();
+                                    sp.edit().putString("usn", USN.toUpperCase()).apply();
                                     Log.d("hello", USN);
 
 
@@ -400,6 +405,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 sp.edit().putBoolean("logged",true).apply();
+
+
+                FirebaseMessaging.getInstance().subscribeToTopic(USN.toUpperCase())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String msg = getString(R.string.msg_subscribed);
+                                if (!task.isSuccessful()) {
+                                    msg = getString(R.string.msg_subscribe_failed);
+                                }
+                                //Log.d(, msg);
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                 goToProfileActivity();
 
             } else {

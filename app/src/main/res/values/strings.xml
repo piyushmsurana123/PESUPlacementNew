@@ -56,7 +56,12 @@
 
 
     <string name="title_activity_form">Form</string>
+    <string name="title_activity_company_dates_list">Companies and Dates</string>
+
     <string name="graph_activity_form">Graph</string>
+
+    <string name="msg_subscribed">Successfully Logged In</string>
+    <string name="msg_subscribe_failed">Subscription Failed</string>
 
 
 </resources>
