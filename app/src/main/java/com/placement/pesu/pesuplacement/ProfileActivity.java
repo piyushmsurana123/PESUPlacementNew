@@ -23,8 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class
-ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private static final int REQUEST_WRITE_STORAGE = 112;
     EditText emailIdInput;

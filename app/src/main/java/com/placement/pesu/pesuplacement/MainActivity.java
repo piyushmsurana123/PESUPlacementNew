@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> linkList;
     private ArrayList<JSONObject> companyJsonList;
     private ArrayList<String> eligibilityString;
-    private JSONObject studentResponse;
+    private JSONObject studentResponse=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -125,13 +125,32 @@ public class MainActivity extends AppCompatActivity
             return "T1";
     }
 
-    public String checkEligibility(float ctc){
-        String param = "formdata?usn="+LoginActivity.USN;
+    public String checkEligibility(float ctc, float cgpa, Boolean dateCheck ){
+
+
         String companyType = getCompanyType(ctc);
         Log.d("ctc", ""+ctc);
+        try {
+            if(studentResponse.getBoolean("blacklisted")) {
+                return "Blacklisted";
+            }
+            if (studentResponse.getString("fte_status").contains("T") && studentResponse.getString("fte_status").compareToIgnoreCase(companyType)<=0) {
+                return "Already Placed in an equal or a better Tier company";
+            }
+            if(Float.parseFloat(studentResponse.getString("score_gpa")) < cgpa) {
+                return "CGPA criteria not met";
+            }
+            if(!dateCheck){
+                return "Application Date Over";
+            }
 
 
-            return "";
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
@@ -169,6 +188,8 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_statistics) {
+            Intent intent = new Intent(MainActivity.this, GraphLoaderWebView.class);
+            startActivity(intent);
 
         }
         else if (id == R.id.nav_learning_topics) {
@@ -189,6 +210,7 @@ public class MainActivity extends AppCompatActivity
             model.setCtc(ctcList.get(i));
             model.setCompany(companyList.get(i));
             model.setCompanyDetailsJson(companyJsonList.get(i));
+            model.setEligibility(eligibilityString.get(i));
             list.add(model);
         }
         return list;
@@ -200,6 +222,8 @@ public class MainActivity extends AppCompatActivity
     private void showCompany() {
         SharedPreferences sp = getSharedPreferences("login", MODE_PRIVATE);
         if(sp.getBoolean("logged", false)){
+
+            LoginActivity.USN = sp.getString("usn", "01FB15ECS111");
 
             TextView welcome = findViewById(R.id.welcome);
 
@@ -214,8 +238,9 @@ public class MainActivity extends AppCompatActivity
             customAdapter = new CustomAdapter(this);
             //**********************
             String[] getParams = {"compdata"};
-            String[] param = {"formdata?usn="+LoginActivity.USN};
-            JSONArray studentResponse = new JSONArray();
+            final String[] param = {"formdata?usn="+LoginActivity.USN};
+            Log.d("student",param[0]);
+            //JSONArray studentResponse = new JSONArray();
 
             MyGet asyncTask = (MyGet) new MyGet(new MyGet.AsyncResponse() {
 
@@ -225,14 +250,17 @@ public class MainActivity extends AppCompatActivity
 
                         JSONArray response = new JSONArray(output);
                         setStudentDetail(response.getJSONObject(0));
-                        Log.d("hello",response.toString());
+                        Log.d("student",response.toString());
 
                     }
                     catch (JSONException e) {
                         e.printStackTrace();
+                        Log.d("student",e.toString());
+
                     }
                 }
             }).execute(param);
+
             MyGet asyncTask1 = (MyGet) new MyGet(new MyGet.AsyncResponse(){
 
                 @Override
@@ -248,10 +276,16 @@ public class MainActivity extends AppCompatActivity
                                 String compName = companies.getJSONObject(i).getString("Company");
                                 String compCtc = companies.getJSONObject(i).getString("CTC");
                                 String compDate = companies.getJSONObject(i).getString("Date");
+                                String compApplyDate = companies.getJSONObject(i).getString("Last Date to submit");
+                                String compGpa = companies.getJSONObject(i).getString("Eligibilty");
 
                                 Date fcompDate = new SimpleDateFormat("yyyy-MM-dd").parse(compDate);
+                                Date fcompApplyDate = new SimpleDateFormat("yyyy-MM-dd").parse(compApplyDate);
                                 Date currDate = new Date();
                                 if(currDate.compareTo(fcompDate)>0){
+                                    continue;
+                                }
+                                if(studentResponse.has("registered") && studentResponse.getString("registered").contains(compName)) {
                                     continue;
                                 }
                                 Log.d("hello", compName);
@@ -259,7 +293,7 @@ public class MainActivity extends AppCompatActivity
                                 ctcList.add(compCtc);
                                 linkList.add("https://www.google.co.in");
                                 companyJsonList.add(companies.getJSONObject(i));
-                                eligibilityString.add(checkEligibility(Float.parseFloat(compCtc.replace("LPA",""))));
+                                eligibilityString.add(checkEligibility(Float.parseFloat(compCtc.replace("LPA","")),Float.parseFloat(compGpa), currDate.compareTo(fcompApplyDate)<=0));
 
                             }
                         }

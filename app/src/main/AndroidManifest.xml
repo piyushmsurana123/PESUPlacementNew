@@ -67,6 +67,11 @@
             android:label="Upload Resume"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".GraphLoaderWebView"
+            android:label="@string/graph_activity_form"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>
