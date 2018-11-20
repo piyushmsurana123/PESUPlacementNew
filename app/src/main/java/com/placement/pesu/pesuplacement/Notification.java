@@ -26,18 +26,7 @@ public class Notification extends AppCompatActivity {
         sp = getSharedPreferences("login", MODE_PRIVATE);
         jsonArray = null;
 
-        if(sp.getBoolean("logged", false)){
-            res = getIntent().getStringExtra("student");
-            try {
-                jsonArray = new JSONArray(res);
-                for(int i=0; i<jsonArray.length();i++){
-                    Log.d("hello", jsonArray.getString(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-        }
 
 
         // set visibility of list to INVISIBLE
@@ -50,6 +39,19 @@ public class Notification extends AppCompatActivity {
 
 //        companyDatesList.add("ABC","123");
 //        companyDatesList.add("DEF","567");
+        if(sp.getBoolean("logged", false)){
+            res = getIntent().getStringExtra("student");
+            try {
+                jsonArray = new JSONArray(res);
+                for(int i=0; i<jsonArray.length();i++){
+                    Log.d("hello", jsonArray.getString(i));
+                    notifTextList.nList.add(new NotifText(jsonArray.getString(i)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         lv.setAdapter(notifTextListAdapter);
 
