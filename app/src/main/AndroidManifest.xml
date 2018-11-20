@@ -38,6 +38,10 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".LearningFIlterListActivity"
             android:label="@string/title_activity_learning_filter_list"
             android:theme="@style/AppTheme.NoActionBar" />
