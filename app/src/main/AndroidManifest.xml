@@ -39,6 +39,10 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".LearningFIlterListActivity"
             android:label="@string/title_activity_learning_filter_list"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -63,15 +67,21 @@
             android:label="@string/title_activity_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+<<<<<<< HEAD
             android:name=".Upload_Resume"
             android:label="Upload Resume"
             android:theme="@style/AppTheme.NoActionBar" />
 
+=======
+            android:name=".CompanyDatesListActivity"
+            android:label="@string/title_activity_company_dates_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> 3364c3c83b1ed8dd16279558a532b87f0b4e62c4
         <activity
             android:name=".GraphLoaderWebView"
             android:label="@string/graph_activity_form"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Notification"></activity>
     </application>
 
 </manifest>

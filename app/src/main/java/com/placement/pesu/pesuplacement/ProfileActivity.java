@@ -1,5 +1,6 @@
 package com.placement.pesu.pesuplacement;
 
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -157,6 +164,15 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
+    }
+
+    void logout() {
+        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
+        sp.edit().putBoolean("logged",false).apply();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(LoginActivity.USN);
+        Intent intent = new Intent(this,LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 
