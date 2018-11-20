@@ -56,18 +56,16 @@
         <activity
             android:name=".CompanyDetailsActivity"
             android:label="@string/title_activity_company_details"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FormLoaderWebView"
             android:label="@string/title_activity_form"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GraphLoaderWebView"
             android:label="@string/graph_activity_form"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Notification"></activity>
     </application>
 
 </manifest>
