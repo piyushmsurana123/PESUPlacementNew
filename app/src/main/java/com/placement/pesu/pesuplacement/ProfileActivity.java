@@ -121,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                     srnInput.setText(response.getJSONObject(0).getString("usn"));
                     emailIdInput.setText(response.getJSONObject(0).getString("email"));
                     nameInput.setText(response.getJSONObject(0).getString("name"));
-                    cgpaInput.setText(response.getJSONObject(0).getString("cgpa"));
+                    cgpaInput.setText(response.getJSONObject(0).getString("score_gpa"));
 
                 }
                 catch (JSONException e) {
