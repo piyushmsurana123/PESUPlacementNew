@@ -324,15 +324,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    void logout() {
-        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
-        sp.edit().putBoolean("logged",false).apply();
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(LoginActivity.USN);
-        Intent intent = new Intent(this,LoginActivity.class);
-        finish();
-        startActivity(intent);
-    }
-
 }
 
 class MyGet extends AsyncTask<String, Void, String> {
