@@ -44,9 +44,8 @@
     <string name="prompt_branch">Branch</string>
     <string name="prompt_10th">10th Details</string>
     <string name="prompt_12th">12th Details</string>
-    <string name="action_upload_resume">Upload Resume</string>
+    <string name="action_logout">Logout</string>
     <string name="action_submit_details">Submit Details</string>
-    <string name="action_change_password">Change Password</string>
 
 
     <string name="title_activity_company_details">CompanyDetails</string>
