@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText tenthDetailsInput;
     EditText twelfthDetailsInput;
 
-    Button uploadResume;
+    Button logoutButton;
 
     Button submitButton;
     String imagepath;
@@ -76,10 +76,12 @@ public class ProfileActivity extends AppCompatActivity {
         tenthDetailsInput = (EditText) findViewById(R.id.details_10th);
         twelfthDetailsInput = (EditText) findViewById(R.id.details_12th);
 
-        uploadResume = (Button) findViewById(R.id.upload_resume_button);
+        //uploadResume = (Button) findViewById(R.id.upload_resume_button);
         //changePassword = (Button) findViewById(R.id.change_password_button);
+        logoutButton = (Button) findViewById(R.id.logout_button);
         submitButton = (Button) findViewById(R.id.submit_details_button);
 
+        /*
         Boolean hasPermission = (ContextCompat.checkSelfPermission(ProfileActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermission) {
@@ -91,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
+
         uploadResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +101,22 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.setType("document/*"); // intent.setType("video/*"); to select videos to upload
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select File"), 1);
+            }
+        });
+        */
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                    SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
+                    sp.edit().putBoolean("logged",false).apply();
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(LoginActivity.USN);
+                    Intent intent = new Intent(ProfileActivity.this,LoginActivity.class);
+                    finish();
+                    startActivity(intent);
+
             }
         });
 
@@ -118,9 +137,10 @@ public class ProfileActivity extends AppCompatActivity {
                     postData.put("details_10th", tenthDetailsInput.getText().toString());
                     postData.put("details_12th", twelfthDetailsInput.getText().toString());
 
-
+                    /*
                     Log.d("check if File exists ", sourceFile.getAbsolutePath());
                     postData.put("upload_resume",sourceFile);
+                    */
                     Log.d("Initiating POST request", "finished collecting url parameters");
                     new SendProfileDetails().execute("https://ppdb-ep.herokuapp.com/updateprofile", postData.toString());
                 } catch (JSONException e) {
@@ -166,16 +186,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    void logout() {
-        SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
-        sp.edit().putBoolean("logged",false).apply();
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(LoginActivity.USN);
-        Intent intent = new Intent(this,LoginActivity.class);
-        finish();
-        startActivity(intent);
-    }
 
-
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -219,5 +231,5 @@ public class ProfileActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
-
+    */
 }

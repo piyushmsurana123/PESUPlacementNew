@@ -36,11 +36,9 @@ public class GraphLoaderWebView extends Activity {
             }
         });
 
-<<<<<<< HEAD
-        mWebview .loadUrl("https://sramako.github.io/graph_mobile.html?company=");
-=======
+
         mWebview .loadUrl("https://sramako.github.io/graph_mobile.html");
->>>>>>> 3364c3c83b1ed8dd16279558a532b87f0b4e62c4
+
         setContentView(mWebview );
 
     }

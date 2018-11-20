@@ -37,20 +37,16 @@ public class FormLoaderWebView extends Activity {
             }
         });
 
-<<<<<<< HEAD
+
+                /*
         String url = "https://sramako.github.io/formclient.html?company="+company_name;
         mWebview.loadUrl(url);
-=======
-        mWebview .loadUrl("https://sramako.github.io/formclient.html?company="+company_name+"&usn="+LoginActivity.USN);
+        */
+
+        mWebview.loadUrl("https://sramako.github.io/formclient.html?company="+company_name+"&usn="+LoginActivity.USN);
         setContentView(mWebview );
->>>>>>> 3364c3c83b1ed8dd16279558a532b87f0b4e62c4
 
-        //setContentView(mWebview);
 
-        if (url.contains("http://exitme"))
-            finish();  // close activity
-        else
-            setContentView(mWebview);
     }
 
 
