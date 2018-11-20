@@ -8,6 +8,7 @@ public class Company {
     private String company;
     private String link;
     private JSONObject companyDetailsJson;
+    private String eligibility;
 
     public JSONObject getCompanyDetailsJson() {
         return companyDetailsJson;
@@ -39,5 +40,13 @@ public class Company {
 
     public String getLink() {
         return link;
+    }
+
+    public String getEligibility() {
+        return eligibility;
+    }
+
+    public void setEligibility(String eligibility) {
+        this.eligibility = eligibility;
     }
 }

@@ -58,6 +58,7 @@ public class CustomAdapter  extends BaseAdapter {
 
             holder.tvCompany = (TextView) convertView.findViewById(R.id.company);
             holder.tvCtc = (TextView) convertView.findViewById(R.id.ctc);
+            holder.eligibility = (TextView) convertView.findViewById(R.id.block_message);
             holder.apply = (Button) convertView.findViewById(R.id.apply_button);
             holder.btn_details = (Button) convertView.findViewById(R.id.details_button);
 
@@ -74,6 +75,10 @@ public class CustomAdapter  extends BaseAdapter {
 
         holder.apply.setTag(R.integer.apply_view, convertView);
         holder.apply.setTag(R.integer.apply_pos, position);
+        if(!MainActivity.modelArrayList.get(position).getEligibility().equals("")) {
+            holder.apply.setEnabled(false);
+            holder.eligibility.setText(MainActivity.modelArrayList.get(position).getEligibility());
+        }
         holder.apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +111,7 @@ public class CustomAdapter  extends BaseAdapter {
     private class ViewHolder {
 
         protected Button apply, btn_details;
-        private TextView tvCompany, tvCtc;
+        private TextView tvCompany, tvCtc, eligibility;
 
     }
 

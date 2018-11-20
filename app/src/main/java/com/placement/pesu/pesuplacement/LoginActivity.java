@@ -32,6 +32,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
+     *
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world", "piyushmsurana123@gmail.com:12345"
@@ -105,6 +110,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mRegisterButton = findViewById(R.id.email_register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
             }
         });
 
@@ -222,12 +236,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
+
         return email.contains("@") || email.length()>=12;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
+
         return password.length() > 4;
     }
 
@@ -330,18 +344,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    USN = "01FB15ECS111";
-                    return pieces[1].equals(mPassword);
-                }
-            }
 
             JSONObject postData = new JSONObject();
             try {
@@ -352,8 +355,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("login", response.toString());
                 if(response.toString().contains("true"))
                 {
-                    if(!mEmail.contains("@"))
-                        USN = mEmail;
+                    if(!mEmail.contains("@")) {
+                        USN = mEmail.toUpperCase();
+                        sp.edit().putString("usn", USN.toUpperCase()).apply();
+                    }
                     else
                     {
                         String[] getParams = {"formdata?email="+mEmail};
@@ -365,9 +370,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 //of onPostExecute(result) method.
                                 try {
                                     JSONArray user = new JSONArray(output);
-                                    USN = user.getJSONObject(0).getString("usn");
-                                    sp.edit().putString("usn", USN).apply();
-                                    //Log.d("hello", companies.getString(0));
+                                    USN = user.getJSONObject(0).getString("usn").toUpperCase();
+                                    sp.edit().putString("usn", USN.toUpperCase()).apply();
+                                    Log.d("hello", USN);
 
 
                                 }
@@ -400,6 +405,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 sp.edit().putBoolean("logged",true).apply();
+
+
+                FirebaseMessaging.getInstance().subscribeToTopic(USN.toUpperCase())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String msg = getString(R.string.msg_subscribed);
+                                if (!task.isSuccessful()) {
+                                    msg = getString(R.string.msg_subscribe_failed);
+                                }
+                                //Log.d(, msg);
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                 goToProfileActivity();
 
             } else {

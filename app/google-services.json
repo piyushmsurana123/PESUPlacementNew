@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "235142520321-h5ph4vfodgu1sjgkjcuv5hi5qp6vncod.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.placement.pesu.pesuplacement",
+            "certificate_hash": "a13fdd35f1c91bf89dc6b191d988fdeef42b6c28"
+          }
+        },
+        {
           "client_id": "235142520321-rs5ronbjc7bkdbkm9uuc9gqhrfnhq11s.apps.googleusercontent.com",
           "client_type": 3
         }

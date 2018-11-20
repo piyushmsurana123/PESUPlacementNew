@@ -13,7 +13,9 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email / USN</string>
+    <string name="prompt_email_only">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_password_confirm">Confirm Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register_short">Register</string>
@@ -21,6 +23,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This username/password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_password_no_match">The passwords don\'t match</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -54,6 +57,11 @@
 
     <string name="title_activity_form">Form</string>
     <string name="title_activity_company_dates_list">Companies and Dates</string>
+
+    <string name="graph_activity_form">Graph</string>
+
+    <string name="msg_subscribed">Successfully Logged In</string>
+    <string name="msg_subscribe_failed">Subscription Failed</string>
 
 
 </resources>

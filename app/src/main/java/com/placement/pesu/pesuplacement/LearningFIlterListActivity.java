@@ -148,4 +148,11 @@ public class LearningFIlterListActivity extends AppCompatActivity implements and
         }
     }
 
+    @Override
+    public void onBackPressed(){
+//        finish();
+//        Intent intent = new Intent(LearningFIlterListActivity.this, LearningChooseCollegeActivity.class);
+//        startActivity(intent);
+    }
+
 }
